@@ -4,16 +4,20 @@
   "type": "module",
   "private": true,
   "scripts": {
-      "dev": "bun --watch run ./index.ts",
-      "build": "tsc"
-    },
+    "dev": "bun --watch run ./index.ts",
+    "build": "tsc"
+  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^25.3.2"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
+    "@types/cors": "^2.8.19",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
