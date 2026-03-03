@@ -31,17 +31,26 @@ type User = {
   password: string;
   socketId?: string;
   status: "Online" | "Offline";
+  friends: string[];
+  friendRequests: string[]
 }
 
 
 
 type Message = {
   id: string;
+  senderId: string;
   text: string;
-  sender: string;
   timestamp: number;
 }
 
+type Conversation = {
+  id: string;
+  name?: string;
+  isGroup: boolean;
+  members: string[];
+  messages: Message[];
+}
 
 let users: User[] = [];
 
@@ -67,6 +76,8 @@ app.get("/me", (req, res) => {
       id: user.id,
       username: user.username,
       status: user.status,
+      friends: user.friends,
+      friendRequests: user.friendRequests
     });
   } catch (err) {
     res.status(403).json({ error: "Invalid token" });
@@ -93,6 +104,8 @@ app.post("/register", (req, res) => {
     email,
     password,
     status: "Online",
+    friends: [],
+    friendRequests: []
   };
 
   users.push(newUser);
@@ -149,7 +162,7 @@ io.on("connection", (socket) => {
       return;
     }
 
-    messages.push({id:socket.id, text: data, sender: user.username, timestamp: Date.now()});
+    messages.push({id:socket.id, text: data, senderId: user.id, timestamp: Date.now()});
 
     io.emit("message", messages);
   });
